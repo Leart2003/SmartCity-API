@@ -8,7 +8,16 @@ namespace Infrastructure.DB
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
            : base(options)
-        {
-        }
-    }
+        { }
+        public DbSet<Place> Places { get; set; } = null!;
+
+        public DbSet<Category> Categories { get; set; }
+
+        public DbSet<PlaceImage> PlaceImages { get; set; } = null!;
+        public DbSet<Review> Reviews { get; set; } = null!;
+
+
+
+    } 
+    
 }
