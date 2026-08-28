@@ -6,5 +6,6 @@ namespace Domain.Entities
 {
     public class PlaceImage
     {
+        public int MyProperty { get; set; }
     }
 }

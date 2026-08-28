@@ -30,6 +30,7 @@ namespace Domain.Entities
 
         public ICollection<PlaceImage> Images { get; set; } = new List<PlaceImage>();
         public ICollection<Review> Reviews { get; set; } = new List<Review>();
+        public ICollection<Favorite> Favorites { get; set; } = new List<Favorite>();
 
 
     }

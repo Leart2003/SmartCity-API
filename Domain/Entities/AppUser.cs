@@ -10,5 +10,6 @@ namespace Domain.Entities
         public string Role { get; set; } = "Tourist";
 
         public ICollection<Review> Reviews { get; set; } = new List<Review>();
+        public ICollection<Favorite> Favorites { get; set; } = new List<Favorite>();
     }
 }
