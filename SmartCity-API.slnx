@@ -1,3 +1,7 @@
 <Solution>
+  <Project Path="Application/Application.csproj" Id="d502f044-9e54-47aa-8fec-a35276cc9e21" />
+  <Project Path="Domain/Domain.csproj" Id="b77c4daa-4bde-47f1-bc4a-a71122e1e46a" />
+  <Project Path="Infrastructure/Infrastructure.csproj" Id="73fe79b3-2fda-43b3-8fb0-25a5578bc8f7" />
   <Project Path="SmartCity-API/SmartCity-API.csproj" />
+  <Project Path="SmartCityTest/SmartCityTest.csproj" Id="a646b1aa-952f-43ee-993f-25d7049c0d83" />
 </Solution>
