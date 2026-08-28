@@ -1,4 +1,6 @@
 using Infrastructure.DB;
+using Microsoft.EntityFrameworkCore;
+using Domain.Entities;
 
 namespace SmartCity_API
 {
