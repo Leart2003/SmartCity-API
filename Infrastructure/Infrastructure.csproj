@@ -10,9 +10,7 @@
     <Folder Include="Repository\" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Include="DB\ApplicationDbContext.cs" />
-  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="10.0.0" />
