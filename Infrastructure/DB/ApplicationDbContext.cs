@@ -16,6 +16,8 @@ namespace Infrastructure.DB
         public DbSet<PlaceImage> PlaceImages { get; set; } = null!;
         public DbSet<Review> Reviews { get; set; } = null!;
 
+        public DbSet<Favorite> Favorites { get; set; } = null!;
+
 
 
     } 
