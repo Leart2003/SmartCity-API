@@ -17,8 +17,8 @@ namespace Domain.Dtos
             public string Address { get; set; } = string.Empty;
             public string? City { get; set; }
             public string CategoryName { get; set; } = string.Empty;
-            public string? OpeningHours { get; set; }
-            public double? DistanceKm { get; set; } // plotësohet vetëm te nearby search
+         
+            public double? DistanceKm { get; set; } 
             public double? AverageRating { get; set; }
             public string? CoverImageUrl { get; set; }
         }
