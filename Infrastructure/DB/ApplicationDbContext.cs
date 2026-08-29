@@ -21,9 +21,8 @@ namespace Infrastructure.DB
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder); // e domosdoshme për Identity tables (AspNetUsers etj.)
+            base.OnModelCreating(modelBuilder); 
 
-            // --- Place configuration ---
             modelBuilder.Entity<Place>(entity =>
             {
                 entity.Property(p => p.Name).IsRequired().HasMaxLength(150);
@@ -32,7 +31,7 @@ namespace Infrastructure.DB
 
                 entity.HasOne(p => p.Category)
                       .WithMany(c => c.Places)
-                      .HasForeignKey(p => p.categoryId)
+                      .HasForeignKey(p => p.CategoryId)
                       .OnDelete(DeleteBehavior.Restrict); 
             });
 

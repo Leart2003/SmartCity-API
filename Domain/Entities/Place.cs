@@ -21,7 +21,7 @@ namespace Domain.Entities
 
         //foreinKeys
 
-        public int categoryId { get; set; }
+        public int CategoryId { get; set; }
 
         public Category Category { get; set; }
 
