@@ -27,10 +27,34 @@ namespace Infrastructure.Repository
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<Place>> GetNearbyAsync(double latitude, double longitude, double radiusKm, int? categoryId = null)
+        public async Task<IEnumerable<Place>> GetNearbyAsync(double latitude, double longitude, double radiusKm, int? categoryId = null)
         {
-            throw new NotImplementedException();
+            var query = _context.Places
+                .Include(p => p.Category)
+                .Include(p => p.Images)
+                .AsQueryable();
+
+            if (categoryId.HasValue)
+            {
+                query = query.Where(p => p.CategoryId == categoryId.Value);
+            }
+
+            var allPlaces = await query.ToListAsync();
+
+            var nearbyPlaces = allPlaces
+                .Select(p => new
+                {
+                    Place = p,
+                    Distance = CalculateHaversineDistance(latitude, longitude, p.Latitude, p.Longitude)
+                })
+                .Where(x => x.Distance <= radiusKm)
+                .OrderBy(x => x.Distance)
+                .Select(x => x.Place)
+                .ToList();
+
+            return nearbyPlaces;
         }
+
 
         public async Task<Place?> GetPlaceById(int id)
         {
