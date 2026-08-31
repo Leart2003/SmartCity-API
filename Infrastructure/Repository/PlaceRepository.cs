@@ -19,7 +19,10 @@ namespace Infrastructure.Repository
 
         public Task AddAsync(Place place)
         {
-            throw new NotImplementedException();
+
+            _context.Places.Add(place);
+            await _context.SaveChangesAsync();
+            return place;
         }
 
         public Task DeleteAsync(int id)
