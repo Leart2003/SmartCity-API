@@ -32,9 +32,13 @@ namespace Infrastructure.Repository
             throw new NotImplementedException();
         }
 
-        public Task<Place?> GetPlaceById(int id)
+        public async Task<Place?> GetPlaceById(int id)
         {
-            throw new NotImplementedException();
+            return await _context.Places
+                .Include(p => p.Category)
+                .Include(p => p.Images)
+                .Include(p => p.Reviews)
+                .FirstOrDefaultAsync(p => p.Id ==id);
         }
 
         public async Task<IEnumerable<Place>> GetPlacesAsync()
