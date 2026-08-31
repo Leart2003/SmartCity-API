@@ -75,7 +75,8 @@ namespace Infrastructure.Repository
 
         public Task UpdateAsync(Place place)
         {
-            throw new NotImplementedException();
+            _context.Places.Update(place);
+            await _context.SaveChangesAsync();
         }
     }
 }
