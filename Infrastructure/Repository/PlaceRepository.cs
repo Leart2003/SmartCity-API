@@ -24,7 +24,12 @@ namespace Infrastructure.Repository
 
         public Task DeleteAsync(int id)
         {
-            throw new NotImplementedException();
+            var place = await _context.Places.FindAsync(id);
+            if (place != null)
+            {
+                _context.Places.Remove(place);
+                await _context.SaveChangesAsync();
+            }
         }
 
         public async Task<IEnumerable<Place>> GetNearbyAsync(double latitude, double longitude, double radiusKm, int? categoryId = null)
