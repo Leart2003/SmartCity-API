@@ -17,15 +17,14 @@ namespace Infrastructure.Repository
             _context = dbContext;
         }
 
-        public Task AddAsync(Place place)
+        public async Task<Place> AddAsync(Place place)
         {
-
             _context.Places.Add(place);
             await _context.SaveChangesAsync();
             return place;
         }
 
-        public Task DeleteAsync(int id)
+        public async Task DeleteAsync(int id)
         {
             var place = await _context.Places.FindAsync(id);
             if (place != null)
