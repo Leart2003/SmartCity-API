@@ -80,10 +80,12 @@ namespace Infrastructure.Repository
                 .ToListAsync();
         }
 
-        public Task UpdateAsync(Place place)
+        public async Task UpdateAsync(Place place)
         {
             _context.Places.Update(place);
             await _context.SaveChangesAsync();
         }
+
+      
     }
 }
