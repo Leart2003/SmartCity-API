@@ -6,24 +6,24 @@ using System.Text;
 
 namespace Infrastructure.Repository
 {
-    public class PlaceImageRepository : IPlaceImageRepository
+    public class FavoriteRepository : IFavoriteRepository
     {
-        public Task<PlaceImage> AddAsync(PlaceImage image)
+        public Task<Favorite> AddAsync(Favorite favorite)
         {
             throw new NotImplementedException();
         }
 
-        public Task DeleteAsync(int id)
+        public Task DeleteAsync(string userId, int placeId)
         {
             throw new NotImplementedException();
         }
 
-        public Task<PlaceImage?> GetByIdAsync(int id)
+        public Task<bool> ExistsAsync(string userId, int placeId)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<PlaceImage>> GetByPlaceIdAsync(int placeId)
+        public Task<IEnumerable<Favorite>> GetByUserIdAsync(string userId)
         {
             throw new NotImplementedException();
         }
