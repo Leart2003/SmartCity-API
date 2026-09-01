@@ -13,7 +13,7 @@ namespace Domain.Interface
 
         Task<IEnumerable<Place>> GetNearbyAsync(double latitude, double longitude, double radiusKm, int? categoryId = null);
 
-        Task AddAsync(Place place);
+        Task<Place> AddAsync(Place place);
         Task UpdateAsync(Place place);
 
         Task DeleteAsync(int id);

@@ -24,6 +24,7 @@ namespace Infrastructure.Repository
             return place;
         }
 
+
         public async Task DeleteAsync(int id)
         {
             var place = await _context.Places.FindAsync(id);
@@ -52,7 +53,7 @@ namespace Infrastructure.Repository
                 .Select(p => new
                 {
                     Place = p,
-                    Distance = CalculateHaversineDistance(latitude, longitude, p.Latitude, p.Longitude)
+                    Distance = CalculateSimpleDistance(latitude, longitude, p.Latitude, p.Longitude)
                 })
                 .Where(x => x.Distance <= radiusKm)
                 .OrderBy(x => x.Distance)
@@ -92,5 +93,7 @@ namespace Infrastructure.Repository
             double lonDiffKm = (lon2 - lon1) * 111.0 * Math.Cos(lat1 * Math.PI / 180);
             return Math.Sqrt(latDiffKm * latDiffKm + lonDiffKm * lonDiffKm);
         }
+
+    
     }
 }

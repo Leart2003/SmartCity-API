@@ -21,7 +21,7 @@ namespace Infrastructure.DB
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder); 
+            base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<Place>(entity =>
             {
@@ -32,7 +32,7 @@ namespace Infrastructure.DB
                 entity.HasOne(p => p.Category)
                       .WithMany(c => c.Places)
                       .HasForeignKey(p => p.CategoryId)
-                      .OnDelete(DeleteBehavior.Restrict); 
+                      .OnDelete(DeleteBehavior.Restrict);
             });
 
             modelBuilder.Entity<Category>(entity =>
@@ -40,7 +40,7 @@ namespace Infrastructure.DB
                 entity.Property(c => c.Name).IsRequired().HasMaxLength(100);
             });
 
-         
+
             modelBuilder.Entity<PlaceImage>(entity =>
             {
                 entity.Property(pi => pi.ImageUrl).IsRequired();
@@ -48,10 +48,10 @@ namespace Infrastructure.DB
                 entity.HasOne(pi => pi.Place)
                       .WithMany(p => p.Images)
                       .HasForeignKey(pi => pi.PlaceId)
-                      .OnDelete(DeleteBehavior.Cascade); 
+                      .OnDelete(DeleteBehavior.Cascade);
             });
 
-       
+
             modelBuilder.Entity<Review>(entity =>
             {
                 entity.Property(r => r.Comment).HasMaxLength(1000);
@@ -64,21 +64,21 @@ namespace Infrastructure.DB
                 entity.HasOne(r => r.User)
                       .WithMany(u => u.Reviews)
                       .HasForeignKey(r => r.UserId)
-                      .OnDelete(DeleteBehavior.Restrict); 
+                      .OnDelete(DeleteBehavior.Restrict);
             });
-           
+
             modelBuilder.Entity<Favorite>(entity =>
             {
                 entity.HasOne(f => f.User)
                       .WithMany(u => u.Favorites)
                       .HasForeignKey(f => f.UserId)
-                      .OnDelete(DeleteBehavior.Cascade); 
+                      .OnDelete(DeleteBehavior.Cascade);
 
                 entity.HasOne(f => f.Place)
                       .WithMany(p => p.Favorites)
                       .HasForeignKey(f => f.PlaceId)
-                      .OnDelete(DeleteBehavior.Cascade); 
-             
+                      .OnDelete(DeleteBehavior.Cascade);
+
                 entity.HasIndex(f => new { f.UserId, f.PlaceId }).IsUnique();
             });
 
@@ -86,3 +86,4 @@ namespace Infrastructure.DB
         }
 
     }
+}
