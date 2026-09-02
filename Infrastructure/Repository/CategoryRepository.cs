@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Infrastructure.Repository
 {
-    public class CategoryRepository : ICategory
+    public class CategoryRepository : ICategoryRepository
     {
         public Task<Category> AddAsync(Category category)
         {

@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Infrastructure.Repository
 {
-    public class ReviewRepistory : IReviewRepository_
+    public class ReviewRepository : IReviewRepository
 
     {
         public Task<Review> AddAsync(Review review)

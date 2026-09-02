@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Domain.Interface
 {
-    public interface IReviewRepository_
+    public interface IReviewRepository
     {
 
         Task<IEnumerable<Review>> GetByPlaceIdAsync(int placeId);

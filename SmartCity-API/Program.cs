@@ -1,5 +1,7 @@
 using Domain.Entities;
+using Domain.Interface;
 using Infrastructure.DB;
+using Infrastructure.Repository;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -25,6 +27,10 @@ namespace SmartCity_API
             })
             .AddEntityFrameworkStores<ApplicationDbContext>()
             .AddDefaultTokenProviders();
+            builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+            builder.Services.AddScoped<IPlaceImageRepository, PlaceImageRepository>();
+            builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
+            builder.Services.AddScoped<IFavoriteRepository, FavoriteRepository>();
             var app = builder.Build();
        
 
