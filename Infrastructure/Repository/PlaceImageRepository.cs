@@ -1,5 +1,7 @@
 ﻿using Domain.Entities;
 using Domain.Interface;
+using Infrastructure.DB;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -8,9 +10,17 @@ namespace Infrastructure.Repository
 {
     public class PlaceImageRepository : IPlaceImageRepository
     {
-        public Task<PlaceImage> AddAsync(PlaceImage image)
+        private readonly ApplicationDbContext _context;
+
+        public PlaceImageRepository(ApplicationDbContext context)
         {
-            throw new NotImplementedException();
+            _context = context;
+        }
+        public async Task<PlaceImage> AddAsync(PlaceImage image)
+        {
+            _context.PlaceImages.AddAsync(image);
+            await _context.SaveChangesAsync();
+            return image;
         }
 
         public Task DeleteAsync(int id)
@@ -18,14 +28,18 @@ namespace Infrastructure.Repository
             throw new NotImplementedException();
         }
 
-        public Task<PlaceImage?> GetByIdAsync(int id)
+        public async Task<PlaceImage?> GetByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            return await _context.PlaceImages.FindAsync(id);
+
         }
 
-        public Task<IEnumerable<PlaceImage>> GetByPlaceIdAsync(int placeId)
+        public async Task<IEnumerable<PlaceImage>> GetByPlaceIdAsync(int placeId)
         {
-            throw new NotImplementedException();
+            var ListImages =
+            _context.PlaceImages.Where(pi => pi.PlaceId == placeId).ToListAsync();
+
+            return await ListImages;
         }
     }
 }
