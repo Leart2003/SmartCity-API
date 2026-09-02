@@ -1,5 +1,7 @@
 ﻿using Domain.Entities;
 using Domain.Interface;
+using Infrastructure.DB;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -8,35 +10,62 @@ namespace Infrastructure.Repository
 {
     public class ReviewRepository : IReviewRepository
 
+
     {
-        public Task<Review> AddAsync(Review review)
+        private readonly ApplicationDbContext _context;
+        public ReviewRepository(ApplicationDbContext context)
         {
-            throw new NotImplementedException();
+            _context = context;
+        }
+        public async Task<Review> AddAsync(Review review)
+        {
+            _context.Reviews.Add(review);
+            await _context.SaveChangesAsync();
+            return review;
         }
 
-        public Task DeleteAsync(int id)
-        {
-            throw new NotImplementedException();
+        public async Task DeleteAsync(int id)
+        { 
+            var review = await _context.Reviews.FindAsync(id);
+            if (review is not null)
+            {
+                _context.Reviews.Remove(review);
+                await _context.SaveChangesAsync();
+            }
         }
 
-        public Task<double> GetAverageRatingAsync(int placeId)
+        public async Task<double> GetAverageRatingAsync(int placeId)
         {
-            throw new NotImplementedException();
+            var reviews = await _context.Reviews
+                 .Where(r => r.PlaceId == placeId)
+                 .ToListAsync();
+            if (!reviews.Any())
+            {
+                return 0;
+            }
+            return reviews.Average(r => r.Rating);
         }
 
-        public Task<Review?> GetByIdAsync(int id)
+        public async Task<Review?> GetByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            return await _context.Reviews
+                .Include(r => r.User)
+                .FirstOrDefaultAsync(r => r.Id == id);
         }
 
-        public Task<IEnumerable<Review>> GetByPlaceIdAsync(int placeId)
+        public async Task<IEnumerable<Review>> GetByPlaceIdAsync(int placeId)
         {
-            throw new NotImplementedException();
+            return await _context.Reviews
+                 .Include(r => r.User)
+                 .Where(r => r.PlaceId == placeId)
+                 .OrderByDescending(r => r.CreatedAt)
+                 .ToListAsync();
         }
 
-        public Task UpdateAsync(Review review)
+        public async Task UpdateAsync(Review review)
         {
-            throw new NotImplementedException();
+            _context.Reviews.Update(review);
+            await _context.SaveChangesAsync();
         }
     }
 }
