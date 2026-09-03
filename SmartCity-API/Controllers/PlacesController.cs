@@ -75,6 +75,23 @@ namespace SmartCity_API.Controllers
             return NoContent();
         }
 
+        [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var existing = await _placeRepository.GetPlaceById(id);
+
+            if (existing is null)
+            {
+                return NotFound("Place not found");
+            }
+            ;
+            
+
+            await _placeRepository.DeleteAsync(id);
+            return NoContent();
+        }
+
 
 
     }
