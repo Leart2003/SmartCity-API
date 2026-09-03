@@ -16,8 +16,12 @@ namespace Domain.Dtos
         public double Longitude { get; set; }
         public string Address { get; set; } = string.Empty;
         public string? City { get; set; }
-        public int CategoryId { get; set; }
+        public string CategoryName { get; set; } = string.Empty;
+        public double? AverageRating { get; set; }
+        public string? CoverImageUrl { get; set; }
+        public double? DistanceKm { get; set; }
+
     }
-    
+
 }
 

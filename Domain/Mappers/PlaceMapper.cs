@@ -1,17 +1,21 @@
-﻿using Domain.Dtos;
+﻿using AutoMapper;
 using Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using Domain.Dtos;
 
-namespace Domain.Mappers
+namespace SmartCity_API.MappingProfiles
 {
-    public class PlaceMapper
+    public class PlaceProfile : Profile
     {
-
-        public static PlaceDto ToDto(Place place, double averageRating = 0, double? distanceKm = null)
+        public PlaceProfile()
         {
-
+            CreateMap<Place, PlaceDto>()
+                .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Category.Name))
+                .ForMember(dest => dest.CoverImageUrl, opt => opt.MapFrom(src => src.Images.Any(i => i.IsCoverImage) ?
+                src.Images.First(i => i.IsCoverImage).ImageUrl : src.Images.FirstOrDefault() != null ? src.Images.First().ImageUrl:null ))
+                .ForMember(dest => dest.AverageRating, opt => opt.Ignore())
+                .ForMember(dest => dest.DistanceKm, opt => opt.Ignore());
+            CreateMap<CreatePlaceDto, Place>();
         }
+     
     }
 }
