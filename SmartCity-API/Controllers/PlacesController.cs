@@ -2,6 +2,7 @@
 using Domain.Dtos;
 using Domain.Interface;
 using Infrastructure.Repository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -56,6 +57,22 @@ namespace SmartCity_API.Controllers
 
 
             return Ok(dto);
+        }
+
+        [HttpPut("{id}")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Update(int id, [FromBody] CreatePlaceDto updateDto)
+        {
+            var existing = await _placeRepository.GetPlaceById(id);
+
+            if (existing is null)
+            {
+                return NotFound("Place not found");
+            };
+            _mapper.Map(updateDto, existing);
+
+            await _placeRepository.UpdateAsync(existing);
+            return NoContent();
         }
 
 
