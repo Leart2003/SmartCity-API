@@ -40,10 +40,25 @@ namespace SmartCity_API.Controllers
 
             return Ok(dtos);
 
+        }
+        [HttpGet("{id}")]
+
+        public async Task<ActionResult<PlaceDto>> GetById(int id)
+        {
+            var place = await _placeRepository.GetPlaceById(id);
+
+            if (place == null)
+            {
+                return NotFound($"Place with id {id} was not found.");
+            }
+            var dto = _mapper.Map<PlaceDto>(place);
+            dto.AverageRating =  Math.Round(await _reviewRepository.GetAverageRatingAsync(place.Id), 1);
 
 
+            return Ok(dto);
         }
 
-     
+
+
     }
 }
