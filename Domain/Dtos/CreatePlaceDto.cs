@@ -1,0 +1,17 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace Domain.Dtos
+{
+    public class CreatePlaceDto
+    {
+        public string Name { get; set; } = string.Empty;
+        public string Description { get; set; } = string.Empty;
+        public double Latitude { get; set; }
+        public double Longitude { get; set; }
+        public string Address { get; set; } = string.Empty;
+        public string? City { get; set; }
+        public int CategoryId { get; set; }
+    }
+}
