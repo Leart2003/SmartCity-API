@@ -92,6 +92,13 @@ namespace SmartCity_API.Controllers
             return NoContent();
         }
 
+        private static double CalculateDistanceForDisplay(double lat1, double lon1, double lat2, double lon2)
+        {
+            double latDiffKm = (lat2 - lat1) * 111.0;
+            double lonDiffKm = (lon2 - lon1) * 111.0 * Math.Cos(lat1 * Math.PI / 180);
+            return Math.Sqrt(latDiffKm * latDiffKm + lonDiffKm * lonDiffKm);
+        }
+
 
 
     }
