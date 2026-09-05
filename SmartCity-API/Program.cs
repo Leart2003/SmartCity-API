@@ -47,6 +47,12 @@ namespace SmartCity_API
             {
                 app.MapOpenApi();
             }
+            if (app.Environment.IsDevelopment())
+            {
+                app.UseSwagger();
+                app.UseSwaggerUI();
+            }
+
 
             app.UseHttpsRedirection();
             app.UseAuthorization();
