@@ -28,8 +28,9 @@ namespace SmartCity_API.Controllers
             var reviews = await _reviewRepository.GetByPlaceIdAsync(placeId);
             return Ok(_mapper.Map<IEnumerable<ReviewDto>>(reviews));
         }
+
         [HttpPost]
-        [Authorize] // çdo user i kyçur (Tourist ose Admin) mund të bëjë review
+        [Authorize]
         public async Task<ActionResult<ReviewDto>> Create([FromBody] CreateReviewDto createDto)
         {
             if (createDto.Rating < 1 || createDto.Rating > 5)
@@ -46,6 +47,29 @@ namespace SmartCity_API.Controllers
             var dto = _mapper.Map<ReviewDto>(created);
 
             return CreatedAtAction(nameof(GetByPlaceId), new { placeId = created.PlaceId }, dto);
+        }
+        [HttpDelete]
+
+        [Authorize]
+
+        public async Task<IActionResult> Delete(int id)
+        {
+            var existing = await _reviewRepository.GetByIdAsync(id);
+
+            if (existing is null)
+            {
+                return NotFound("Review not found");
+
+            }
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (existing.UserId != userId && !User.IsInRole("Admin"))
+            {
+                return Forbid();
+            }
+
+            await _reviewRepository.DeleteAsync(id);
+            return NoContent();
         }
     }
 }
