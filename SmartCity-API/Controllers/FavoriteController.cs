@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
+using Domain.Dtos;
 using Domain.Interface;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace SmartCity_API.Controllers
 {
@@ -20,6 +22,17 @@ namespace SmartCity_API.Controllers
             _mapper = mapper;
         }
 
+       
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<FavoriteDto>>> GetMyFavorites()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userId == null)
+                return Unauthorized();
+
+            var favorites = await _favoriteRepository.GetByUserIdAsync(userId);
+            return Ok(_mapper.Map<IEnumerable<FavoriteDto>>(favorites));
+        }
 
     }
 }
