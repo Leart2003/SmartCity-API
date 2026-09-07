@@ -39,6 +39,7 @@ namespace SmartCity_API
             {
                 cfg.AddProfile<PlaceProfile>();
                 cfg.AddProfile<CategoryProfile>();
+                cfg.AddProfile<ReviewProfile>();
             });
 
             var app = builder.Build();
