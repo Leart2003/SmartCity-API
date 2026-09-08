@@ -55,7 +55,21 @@ namespace SmartCity_API.Controllers
             return Ok(_mapper.Map<FavoriteDto>(created));
         }
 
-       
+        [HttpDelete("{placeId}")]
+        public async Task<IActionResult> Remove(int placeId)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userId == null)
+                return Unauthorized();
+
+            var exists = await _favoriteRepository.ExistsAsync(userId, placeId);
+            if (!exists)
+                return NotFound("This place is not in your favorites.");
+
+            await _favoriteRepository.DeleteAsync(userId, placeId);
+            return NoContent();
+        }
+
 
     }
 }
