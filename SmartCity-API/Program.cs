@@ -33,6 +33,7 @@ namespace SmartCity_API
             builder.Services.AddScoped<IPlaceImageRepository, PlaceImageRepository>();
             builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
             builder.Services.AddScoped<IFavoriteRepository, FavoriteRepository>();
+            builder.Services.AddScoped<IPlaceImageRepository, PlaceImageRepository>();
 
             // Mappers
             builder.Services.AddAutoMapper(cfg =>
@@ -40,6 +41,8 @@ namespace SmartCity_API
                 cfg.AddProfile<PlaceProfile>();
                 cfg.AddProfile<CategoryProfile>();
                 cfg.AddProfile<ReviewProfile>();
+                cfg.AddProfile<FavoriteProfile>();
+                cfg.AddProfile<PlaceImageProfile>();
             });
 
             var app = builder.Build();
