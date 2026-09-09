@@ -37,5 +37,16 @@ namespace SmartCity_API.Controllers
             var dto = _mapper.Map<PlaceImageDto>(created);
             return CreatedAtAction(nameof(GetByPlaceId), new { placeId = created.PlaceId }, dto);
         }
+        [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var existing = await _placeImageRepository.GetByIdAsync(id);
+            if (existing == null)
+                return NotFound($"Image with id {id} was not found.");
+
+            await _placeImageRepository.DeleteAsync(id);
+            return NoContent();
+        }
     }
 }
