@@ -58,6 +58,28 @@ namespace SmartCity_API.Controllers
                 Role = user.Role
             });
         }
+        [HttpPost("login")]
+        public async Task<ActionResult<AuthResponseDto>> Login([FromBody] LoginDto loginDto)
+        {
+            var user = await _userManager.FindByEmailAsync(loginDto.Email);
+            if (user == null)
+                return Unauthorized("Invalid email or password.");
+
+            var isPasswordValid = await _userManager.CheckPasswordAsync(user, loginDto.Password);
+            if (!isPasswordValid)
+                return Unauthorized("Invalid email or password.");
+
+            var token = GenerateJwtToken(user);
+
+            return Ok(new AuthResponseDto
+            {
+                Token = token,
+                Email = user.Email!,
+                FullName = user.FullName,
+                Role = user.Role
+            });
+        }
+
 
 
         private string GenerateJwtToken(AppUser user)
