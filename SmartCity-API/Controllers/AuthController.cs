@@ -1,4 +1,5 @@
-﻿using Domain.Entities;
+﻿using Domain.Dtos;
+using Domain.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -24,7 +25,39 @@ namespace SmartCity_API.Controllers
 
 
 
+        [HttpPost("register")]
+        public async Task<ActionResult<AuthResponseDto>> Register([FromBody] RegisterDto registerDto)
+        {
+            var existingUser = await _userManager.FindByEmailAsync(registerDto.Email);
+            if (existingUser != null)
+                return BadRequest("A user with this email already exists.");
 
+            var user = new AppUser
+            {
+                UserName = registerDto.Email,
+                Email = registerDto.Email,
+                FullName = registerDto.FullName,
+                Role = "Tourist" 
+            };
+
+            var result = await _userManager.CreateAsync(user, registerDto.Password);
+
+            if (!result.Succeeded)
+            {
+                var errors = result.Errors.Select(e => e.Description);
+                return BadRequest(errors);
+            }
+
+            var token = GenerateJwtToken(user);
+
+            return Ok(new AuthResponseDto
+            {
+                Token = token,
+                Email = user.Email,
+                FullName = user.FullName,
+                Role = user.Role
+            });
+        }
 
 
         private string GenerateJwtToken(AppUser user)
