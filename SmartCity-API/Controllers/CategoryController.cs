@@ -50,5 +50,19 @@ namespace SmartCity_API.Controllers
             var dto = _mapper.Map<CategoryDto>(created);
             return CreatedAtAction(nameof(GetById), new { id = created.Id }, dto);
         }
+
+        [HttpPut("{id}")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Update(int id, [FromBody] CreateCategoryDto updateDto)
+        {
+            var existing = await _categoryRepository.GetByIdAsync(id);
+            if (existing == null)
+                return NotFound($"Category with id {id} was not found.");
+
+            _mapper.Map(updateDto, existing);
+
+            await _categoryRepository.UpdateAsync(existing);
+            return NoContent();
+        }
     }
 }
