@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using Domain.Dtos;
+using Domain.Entities;
 using Domain.Interface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -37,6 +39,16 @@ namespace SmartCity_API.Controllers
                 return NotFound($"Category with id {id} was not found.");
 
             return Ok(_mapper.Map<CategoryDto>(category));
+        }
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        public async Task<ActionResult<CategoryDto>> Create([FromBody] CreateCategoryDto createDto)
+        {
+            var category = _mapper.Map<Category>(createDto);
+            var created = await _categoryRepository.AddAsync(category);
+
+            var dto = _mapper.Map<CategoryDto>(created);
+            return CreatedAtAction(nameof(GetById), new { id = created.Id }, dto);
         }
     }
 }
