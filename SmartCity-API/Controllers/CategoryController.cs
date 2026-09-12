@@ -18,11 +18,25 @@ namespace SmartCity_API.Controllers
             _categoryRepository = categoryRepository;
             _mapper = mapper;
         }
+        /// <summary>
+        /// Get all existing categories
+        /// </summary>
+        /// <returns>If any category, returns all categories</returns>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<CategoryDto>>> GetAll()
         {
             var categories = await _categoryRepository.GetAllAsync();
             return Ok(_mapper.Map<IEnumerable<CategoryDto>>(categories));
+        }
+        [HttpGet("{id}")]
+        public async Task<ActionResult<CategoryDto>> GetById(int id)
+        {
+            var category = await _categoryRepository.GetByIdAsync(id);
+
+            if (category == null)
+                return NotFound($"Category with id {id} was not found.");
+
+            return Ok(_mapper.Map<CategoryDto>(category));
         }
     }
 }
