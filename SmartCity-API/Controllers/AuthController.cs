@@ -24,6 +24,11 @@ namespace SmartCity_API.Controllers
         }
 
 
+        /// <summary>
+        /// Creates a new user
+        /// </summary>
+        /// <param name="registerDto">Creates a user based on registerDto</param>
+        /// <returns>Returns httpcode  200 if created succesfully</returns>
 
         [HttpPost("register")]
         public async Task<ActionResult<AuthResponseDto>> Register([FromBody] RegisterDto registerDto)
@@ -58,6 +63,22 @@ namespace SmartCity_API.Controllers
                 Role = user.Role
             });
         }
+        /// <summary>
+        /// Authenticates a user using their email address and password.
+        /// If the credentials are valid, a JWT token containing the user's
+        /// authentication information is generated and returned.
+        /// </summary>
+        /// <param name="loginDto">
+        /// The login credentials containing the user's email address and password.
+        /// </param>
+        /// <returns>
+        /// email address, full name, and user role.
+        /// </returns>
+        /// <response code="200">
+        /// Login was successful and an authentication token was returned.
+        /// </response>
+        /// <response code="401">
+        /// </response>
         [HttpPost("login")]
         public async Task<ActionResult<AuthResponseDto>> Login([FromBody] LoginDto loginDto)
         {
@@ -82,6 +103,17 @@ namespace SmartCity_API.Controllers
 
 
 
+        /// <summary>
+        /// Generates a JSON Web Token for the specified user.
+        /// The token contains the user's ID, email, role, and full name as claims.
+        /// </summary>
+        /// <param name="user">
+        /// The application user for whom the JWT token is generated.
+        /// </param>
+        /// <returns>
+        /// A signed JWT token containing the user's authentication claims
+        /// and an expiration time configured in the application settings.
+        /// </returns>
         private string GenerateJwtToken(AppUser user)
         {
             var claims = new List<Claim>

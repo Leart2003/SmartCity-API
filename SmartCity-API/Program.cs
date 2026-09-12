@@ -52,7 +52,7 @@ namespace SmartCity_API
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             })
-.AddJwtBearer(options =>
+                .AddJwtBearer(options =>
 {
     options.TokenValidationParameters = new TokenValidationParameters
     {
