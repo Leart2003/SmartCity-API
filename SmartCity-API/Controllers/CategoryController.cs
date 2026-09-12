@@ -64,5 +64,16 @@ namespace SmartCity_API.Controllers
             await _categoryRepository.UpdateAsync(existing);
             return NoContent();
         }
+        [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var existing = await _categoryRepository.GetByIdAsync(id);
+            if (existing == null)
+                return NotFound($"Category with id {id} was not found.");
+
+            await _categoryRepository.DeleteAsync(id);
+            return NoContent();
+        }
     }
 }
