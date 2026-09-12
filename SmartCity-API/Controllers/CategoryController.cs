@@ -30,6 +30,11 @@ namespace SmartCity_API.Controllers
             var categories = await _categoryRepository.GetAllAsync();
             return Ok(_mapper.Map<IEnumerable<CategoryDto>>(categories));
         }
+        /// <summary>
+        /// Updates a category 
+        /// </summary>
+        /// <param name="id">The id of the category to be updated</param>
+        /// <returns>If category is null, returns not found.If exists returns succesfully updated</returns>
         [HttpGet("{id}")]
         public async Task<ActionResult<CategoryDto>> GetById(int id)
         {
@@ -40,6 +45,11 @@ namespace SmartCity_API.Controllers
 
             return Ok(_mapper.Map<CategoryDto>(category));
         }
+        /// <summary>
+        /// Creates a category
+        /// </summary>
+        /// <param name="createDto">Creates a category by the given info of createDto</param>
+        /// <returns>Returns the created category</returns>
         [HttpPost]
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult<CategoryDto>> Create([FromBody] CreateCategoryDto createDto)
@@ -50,6 +60,12 @@ namespace SmartCity_API.Controllers
             var dto = _mapper.Map<CategoryDto>(created);
             return CreatedAtAction(nameof(GetById), new { id = created.Id }, dto);
         }
+        /// <summary>
+        /// Updates a category
+        /// </summary>
+        /// <param name="id">Updates a category</param>
+        /// <param name="updateDto">Updates category based on updateDto</param>
+        /// <returns></returns>
 
         [HttpPut("{id}")]
         [Authorize(Roles = "Admin")]
@@ -64,6 +80,11 @@ namespace SmartCity_API.Controllers
             await _categoryRepository.UpdateAsync(existing);
             return NoContent();
         }
+        /// <summary>
+        /// Deletes a category 
+        /// </summary>
+        /// <param name="id">Deletes the category by the given Id</param>
+        /// <returns>Returns no content after the category is updated</returns>
         [HttpDelete("{id}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int id)
