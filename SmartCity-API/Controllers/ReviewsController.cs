@@ -77,7 +77,7 @@ namespace SmartCity_API.Controllers
         /// <response code="404">Review with the given id was not found.</response>
         /// <response code="403">The current user is neither the author nor an Admin.</response>
         [HttpPost]
-        [HttpDelete]
+        [HttpDelete("{id}")]
 
         [Authorize]
 
