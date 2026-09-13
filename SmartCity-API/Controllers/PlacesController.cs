@@ -8,6 +8,10 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace SmartCity_API.Controllers
 {
+    /// <summary>
+    /// Provides endpoints for retrieving and managing places.
+    /// </summary>
+    
     [Route("api/[controller]")]
     [ApiController]
     public class PlacesController : ControllerBase
@@ -16,6 +20,18 @@ namespace SmartCity_API.Controllers
         private readonly IReviewRepository _reviewRepository;
 
         private readonly IMapper _mapper;
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PlacesController"/> class.
+        /// </summary>
+        /// <param name="placeRepository">
+        /// Repository used to access and manage places.
+        /// </param>
+        /// <param name="reviewRepository">
+        /// Repository used to retrieve review and rating information.
+        /// </param>
+        /// <param name="mapper">
+        /// AutoMapper instance used to map entities to DTOs.
+        /// </param>
         public PlacesController(IPlaceRepository placeRepository, IReviewRepository reviewRepository, IMapper mapper)
         {
             _placeRepository = placeRepository;
@@ -25,6 +41,16 @@ namespace SmartCity_API.Controllers
             _mapper = mapper;
 
         }
+        /// <summary>
+        /// Retrieves all places along with their average ratings.
+        /// </summary>
+        /// <returns>
+        /// A collection of <see cref="PlaceDto"/> objects containing place information
+        /// and their average ratings.
+        /// </returns>
+        /// <response code="200">
+        /// The places were successfully retrieved.
+        /// </response>
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<PlaceDto>>> GetAll()
@@ -44,6 +70,19 @@ namespace SmartCity_API.Controllers
         }
         [HttpGet("{id}")]
 
+        /// <summary>
+        /// Retrieves a specific place by its identifier along with its average rating.
+        /// </summary>
+        /// <param name="id">The unique identifier of the place.</param>
+        /// <returns>
+        /// The requested <see cref="PlaceDto"/> if the place exists.
+        /// </returns>
+        /// <response code="200">
+        /// The place was successfully retrieved.
+        /// </response>
+        /// <response code="404">
+        /// No place with the specified identifier was found.
+        /// </response>
         public async Task<ActionResult<PlaceDto>> GetById(int id)
         {
             var place = await _placeRepository.GetPlaceById(id);
@@ -58,7 +97,28 @@ namespace SmartCity_API.Controllers
 
             return Ok(dto);
         }
-
+        /// <summary>
+        /// Updates an existing place.
+        /// </summary>
+        /// <param name="id">The unique identifier of the place to update.</param>
+        /// <param name="updateDto">
+        /// Data containing the updated information for the place.
+        /// </param>
+        /// <returns>
+        /// No content if the place was successfully updated.
+        /// </returns>
+        /// <response code="204">
+        /// The place was successfully updated.
+        /// </response>
+        /// <response code="401">
+        /// The user is not authenticated.
+        /// </response>
+        /// <response code="403">
+        /// The authenticated user does not have the Admin role.
+        /// </response>
+        /// <response code="404">
+        /// No place with the specified identifier was found.
+        /// </response>
         [HttpPut("{id}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Update(int id, [FromBody] CreatePlaceDto updateDto)
@@ -74,7 +134,25 @@ namespace SmartCity_API.Controllers
             await _placeRepository.UpdateAsync(existing);
             return NoContent();
         }
-
+        /// <summary>
+        /// Deletes an existing place.
+        /// </summary>
+        /// <param name="id">The unique identifier of the place to delete.</param>
+        /// <returns>
+        /// No content if the place was successfully deleted.
+        /// </returns>
+        /// <response code="204">
+        /// The place was successfully deleted.
+        /// </response>
+        /// <response code="401">
+        /// The user is not authenticated.
+        /// </response>
+        /// <response code="403">
+        /// The authenticated user does not have the Admin role.
+        /// </response>
+        /// <response code="404">
+        /// No place with the specified identifier was found.
+        /// </response>
         [HttpDelete("{id}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int id)
