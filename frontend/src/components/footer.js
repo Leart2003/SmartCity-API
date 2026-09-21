@@ -2,9 +2,11 @@ function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="footer">
-      <p>ExploreKosova &copy; {currentYear}</p>
-      <p>Projekt universitar - Aplikacionet, Shërbimet dhe Teknologjitë e Bazuara në Lokacion</p>
+    <footer className="bg-dark text-light text-center py-3 mt-auto">
+      <p className="mb-1">ExploreKosova &copy; {currentYear}</p>
+      <p className="mb-0 small">
+  
+      </p>
     </footer>
   );
 }
